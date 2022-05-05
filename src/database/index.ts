@@ -16,12 +16,12 @@ class Database {
   private connectToDB(): void {
     useContainer(Container);
     createConnection({
-      type: envString("mysql", "sqlite"),
-      host: envString(process.env.DATABASE_HOST!, ""),
-      port: envString(Number(process.env.DATABASE_PORT!), 0),
-      username: envString(process.env.DATABASE_USERNAME!, ""),
-      password: envString(process.env.DATABASE_PASSWORD!, ""),
-      database: envString(process.env.DATABASE_NAME!, "./db.sqlite"),
+      type: envString("mysql", "mysql"),
+      host: envString(process.env.DATABASE_HOST!, "localhost"),
+      port: envString(Number(process.env.DATABASE_PORT!), 3306),
+      username: envString(process.env.DATABASE_USERNAME!, "root"),
+      password: envString(process.env.DATABASE_PASSWORD!, "Max0993319943"),
+      database: envString(process.env.DATABASE_NAME!, "cources"),
       entities: [
         __dirname + "/entity/*.ts",
         __dirname + "/entity/*.js"
