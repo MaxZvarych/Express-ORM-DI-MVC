@@ -1,13 +1,13 @@
-import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, JoinTable } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, BaseEntity, ManyToOne, JoinTable, PrimaryColumn } from "typeorm";
 import { User } from './user';
 
 @Entity({ name: 'payment' })
 export class Payment extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryColumn({ unique: true })
   id: string;
 
-  @Column({ unique: true })
+  @Column()
   cardNumber: string;
 
   @Column()

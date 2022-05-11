@@ -1,4 +1,3 @@
-import { Payment } from '@entity/payment';
 import { Body, Controller, Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa';
 import { getAllPayments, createPayment, updatePayment, deletePayment, IPayment } from './payment.service';
 
@@ -13,7 +12,7 @@ export class PaymentController extends Controller {
 
   @Post('/create/')
   public async createPayment(@Body() body: IPayment) {
-    return createPayment({ cardNumber: body.cardNumber, userID: body.userID, cvv:body.cvv, placeHolderName:body.placeHolderName, receiver:body.receiver, expirationDate:body.expirationDate });
+    return createPayment({ cardNumber: body.cardNumber, userID: body.userID, cvv:body.cvv, placeHolderName:body.placeHolderName, receiver:body.receiver, expirationDate:body.expirationDate, id:body.id });
   }
 
   @Put('/update/{id}/')

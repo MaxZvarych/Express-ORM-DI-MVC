@@ -1,7 +1,9 @@
 import { Payment } from '@entity/payment';
 import { User } from '@entity/user';
+import { Container } from 'typeorm-typedi-extensions';
 
 export interface IUser {
+    id:string,
     email: string,
     paymentIDs?: string[], 
     firstName: string, 
@@ -55,10 +57,11 @@ export const getUser = async (userID?: string) => {
   }
 }
 
-export const createUser = async ({ email, paymentIDs, firstName, lastName, type, phoneNumber, location }: 
+export const createUser = async ({ id, email, paymentIDs, firstName, lastName, type, phoneNumber, location }: 
   IUser) => {
   try {
-    const _newUser = new User();
+    const _newUser = Container.get(User);
+    _newUser['id'] = id;
     _newUser['email'] = email;
     _newUser['firstName'] = firstName;
     _newUser['lastName'] = lastName;
@@ -70,7 +73,7 @@ export const createUser = async ({ email, paymentIDs, firstName, lastName, type,
     applyPaymentsToUser(_newUser.id,paymentIDs);
 
     return await User.findOne({
-      where: { email: email },
+      where: { id: id },
       relations: ['payments']
     });
 
@@ -79,7 +82,7 @@ export const createUser = async ({ email, paymentIDs, firstName, lastName, type,
   }
 }
 
-export const updateUser = async ({ id, email, paymentIDs, firstName, lastName, type, phoneNumber, location }: { id: string } & IUser) => {
+export const updateUser = async ({ id, email, paymentIDs, firstName, lastName, type, phoneNumber, location }: IUser) => {
   try {
     const _updatedUser = await User.findOne({ where: { id }, relations: ['payments'] });
     if (!_updatedUser) return { message: "User is not found!" };
@@ -100,7 +103,7 @@ export const updateUser = async ({ id, email, paymentIDs, firstName, lastName, t
     applyPaymentsToUser(_updatedUser.id,paymentIDs);
 
     return await User.findOne({
-      where: { email: email },
+      where: { id },
       relations: ['payments']
     });
 

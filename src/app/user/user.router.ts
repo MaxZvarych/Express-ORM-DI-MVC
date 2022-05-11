@@ -12,7 +12,7 @@ export class UserPermissionController extends Controller {
 
   @Post('/create/')
   public async createUser(@Body() body: IUser) {
-    return createUser({ email: body.email, paymentIDs: body.paymentIDs, firstName:body.firstName, lastName:body.lastName, type:body.type, phoneNumber:body.phoneNumber, location:body.location });
+    return createUser({ email: body.email, paymentIDs: body.paymentIDs, firstName:body.firstName, lastName:body.lastName, type:body.type, phoneNumber:body.phoneNumber, location:body.location, id:body.id });
   }
 
   @Put('/update/{id}/')

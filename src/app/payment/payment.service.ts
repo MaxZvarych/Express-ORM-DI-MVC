@@ -1,7 +1,10 @@
+import { Course } from '@entity/course';
 import { Payment } from '@entity/payment';
 import { User } from '@entity/user';
+import { Container } from 'typeorm-typedi-extensions';
 
 export interface IPayment {
+    id:string,
     cardNumber: string,
     userID?: string, 
     cvv: string, 
@@ -52,10 +55,11 @@ export const getPayment = async (paymentID?: string) => {
   }
 }
 
-export const createPayment = async ({ cardNumber,userID, cvv, placeHolderName, receiver, expirationDate,  }: 
+export const createPayment = async ({ id,cardNumber,userID, cvv, placeHolderName, receiver, expirationDate,  }: 
   IPayment) => {
   try {
-    const _newPayment = new Payment();
+    const _newPayment = Container.get(Payment);
+    _newPayment['id'] = id;
     _newPayment['cardNumber'] = cardNumber;
     _newPayment['cvv'] = cvv;
     _newPayment['placeHolderName'] = placeHolderName;
@@ -66,7 +70,7 @@ export const createPayment = async ({ cardNumber,userID, cvv, placeHolderName, r
     applyUserToPayment(_newPayment.id,userID);
 
     return await Payment.findOne({
-      where: { cardNumber: cardNumber },
+      where: { id },
       relations: ['user']
     });
 
@@ -75,20 +79,20 @@ export const createPayment = async ({ cardNumber,userID, cvv, placeHolderName, r
   }
 }
 
-export const updatePayment = async ({ id, cardNumber, userID, cvv, placeHolderName, receiver, expirationDate }: { id: string } & IPayment) => {
+export const updatePayment = async ({ id, cardNumber, userID, cvv, placeHolderName, receiver, expirationDate }:  IPayment) => {
   try {
     const _updatedPayment = await Payment.findOne({ where: { id }, relations: ['user'] });
     if (!_updatedPayment) return { message: "Payment is not found!" };
+    _updatedPayment['id'] = id;
     _updatedPayment['cardNumber'] = cardNumber;
     _updatedPayment['cvv'] = cvv;
     _updatedPayment['placeHolderName'] = placeHolderName;
     _updatedPayment['receiver'] = receiver;
     _updatedPayment['expirationDate'] = expirationDate;
     await _updatedPayment.save();
-    // applyUserToPayment(_updatedPayment.id,userID);
 
     return await Payment.findOne({
-      where: { cardNumber: cardNumber },
+      where: { id },
       relations: ['user']
     });
 
@@ -110,9 +114,13 @@ export const buyCourse = async ( courseID:string,paymentID?: string) => {
     try {
         console.log(courseID)
       if (paymentID) {   // get specific payment
-        return await Payment.findOne({
+        const payment= await Payment.findOne({
           where: { id: paymentID },
         });
+        const course= await Course.findOne({
+          where: { id: paymentID },
+        });
+        return payment?.receiver===course?.owner?course:Error("Your payment was performed for another course")
       } else {        // get all payments
         return Error("That course or payment wasn't found")
       }

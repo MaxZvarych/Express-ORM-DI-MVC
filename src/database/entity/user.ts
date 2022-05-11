@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, BaseEntity, JoinTable } from "typeorm";
+import { Entity, Column, OneToMany, BaseEntity, PrimaryColumn } from "typeorm";
 import { Payment } from './payment';
 
 export type UserType = "admin" | "user";
@@ -7,10 +7,10 @@ export type UserType = "admin" | "user";
 @Entity({ name: 'user' })
 export class User extends BaseEntity {
 
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryColumn({ unique: true })
   id: string;
 
-  @Column({ unique: true })
+  @Column()
   email: string;
 
   @Column()
