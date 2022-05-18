@@ -110,7 +110,7 @@ export const deletePayment = async ({ id }: { id: string }) => {
   }
 }
 
-export const buyCourse = async ( courseID:string,paymentID?: string) => {
+export const buyCourse = async ( courseID:string,paymentID: string) => {
     try {
         console.log(courseID)
       if (paymentID) {   // get specific payment
@@ -118,7 +118,8 @@ export const buyCourse = async ( courseID:string,paymentID?: string) => {
           where: { id: paymentID },
         });
         const course= await Course.findOne({
-          where: { id: paymentID },
+          where: { id: courseID },
+          relations: ['certification']
         });
         return payment?.receiver===course?.owner?course:Error("Your payment was performed for another course")
       } else {        // get all payments

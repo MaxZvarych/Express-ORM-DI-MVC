@@ -1,0 +1,39 @@
+Create cource with certification:
+{
+"id":"1242141425",
+"owner":"Masya",
+"price":"150$",
+"isActive":true,
+"title":"IT for beginners",
+"certification":{
+"id":"12321311232133",
+"receiveDate":"12.2.22",
+"result":"excelent"
+}
+}
+
+Payment:
+
+{
+  "id": "payment1",
+  "cardNumber": "3413 3144 1424 2144",
+  "userID": "string",
+  "cvv": "string",
+  "placeHolderName": "string",
+  "receiver": "string",
+  "expirationDate": "string"
+}
+
+User:
+{
+  "id": "string",
+  "email": "string",
+  "paymentIDs": [
+    "string"
+  ],
+  "firstName": "string",
+  "lastName": "string",
+  "type": "admin",
+  "phoneNumber": "string",
+  "location": "string"
+}

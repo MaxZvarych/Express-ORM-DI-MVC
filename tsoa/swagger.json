@@ -340,6 +340,43 @@
 				"parameters": []
 			}
 		},
+		"/api/payment/buy-course/{paymentId}/{courseId}": {
+			"get": {
+				"operationId": "BuyCourse",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {}
+							}
+						}
+					}
+				},
+				"tags": [
+					"Payment"
+				],
+				"security": [],
+				"parameters": [
+					{
+						"in": "query",
+						"name": "paymentId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"in": "query",
+						"name": "courseId",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		},
 		"/api/payment/create": {
 			"post": {
 				"operationId": "CreatePayment",

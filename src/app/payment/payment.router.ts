@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Post, Put, Query, Route, Tags } from 'tsoa';
-import { getAllPayments, createPayment, updatePayment, deletePayment, IPayment } from './payment.service';
+import { getAllPayments, createPayment, updatePayment, deletePayment, IPayment, buyCourse } from './payment.service';
 
 @Tags('Payment')
 @Route('/api/payment')
@@ -8,6 +8,11 @@ export class PaymentController extends Controller {
   @Get('/get-all/')
   public async getAllPayments() {
     return getAllPayments()
+  }
+
+  @Get('/buy-course/{paymentId}/{courseId}/')
+  public async buyCourse(@Query('paymentId') paymentId: string,@Query('courseId') courseId: string) {
+    return buyCourse(courseId,paymentId)
   }
 
   @Post('/create/')
